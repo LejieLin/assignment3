@@ -30,7 +30,8 @@ public:
         Vertex(int _index) :index(_index), parent(-1), distance(0) {}
     public:
         // two vertex is the same just as they have the same index
-        friend bool operator == (const Vertex& _lhs, const Vertex& _rhs) { return _rhs.index == _lhs.index; }
+        friend bool operator == (const Vertex& _lhs, const Vertex& _rhs) 
+        { return _rhs.index == _lhs.index; }
     public:
         int index;
         // the parent vertex in search 
@@ -67,6 +68,7 @@ private:
     int getDistance(int start, int end);
     // get the edge start from vertx i to vertex j
     const Edge* getEdge(int i, int j) const;
+    //depth first search from vertex i
     void depthFirstSearch(int start);
 
 private:

@@ -61,7 +61,6 @@ std::ostream & operator<<(std::ostream & os, const Vertex & v)
 std::pair<bool, std::list<int>> ExistCheapestFlight(GraphM & _graph
     , const int _startVertex, const int _endVertex)
 {
-    //in the path end Vertex to front Vertex, parent sequence is p1 p2 ....pn .... pstart, if pn == -1 means no path between start to end 
     int i = _endVertex;
     auto endVertex = _graph.getVertex(i).vertex;
     std::list<int> pathIndex;
@@ -250,7 +249,8 @@ void GraphM::printCheapestPath2(const int _startVertex, const int _endVertex)
         cout << "       ";
         for (auto i : findResult.second)
         {
-            std::cout << std::setw(2) << _graph.getVertex(i).vertex.index << " ";
+            std::cout << std::setw(2)
+                << _graph.getVertex(i).vertex.index << " ";
         }
         std::cout << std::endl;
     }

@@ -26,6 +26,7 @@ void GraphL::buildGraph(istream& infile) {
         // array of GraphNode and data is the NodeData object of GraphNode
         adjList[i].vertex.index = i;
         adjList[i].data.setData(infile);
+        // the vertex hold name from the data member
         adjList[i].vertex.name = adjList[i].data.getData();
     }
 
@@ -43,6 +44,7 @@ void GraphL::buildGraph(istream& infile) {
 void GraphL::displayGraph(void)
 {
     cout << "Graph:" << endl;
+    // output every node
     for (int i = 1; i < adjList.size(); i++)
     {
         cout << "Node" << std::setw(2) 
@@ -50,6 +52,7 @@ void GraphL::displayGraph(void)
         cout << "       ";
         cout << adjList[i].vertex.name<<endl;
         //print edges
+        // print every edge followed by this vertex
         for (int j = 1; j < adjList.size(); j++)
         {
             auto edge = getEdge(i, j);
@@ -70,17 +73,26 @@ void GraphL::makeEmpty(void)
 {
     for (auto& v : adjList)
     {
+        // the max of the distance means this vertex is can't be
+        //reached at the begaining
         v.vertex.distance = g_max_distance;
+        // -1 means this vertex has no parent at the begaining
         v.vertex.parent = -1;
+        // every vertex is not be searched at the begaining
         v.vertex.searched = false;
     }
 }
 void GraphL::depthFirstSearch(void)
 {
+    // have to reinital the graph beacuse depth first search will 
+    //remodifed the graph
     makeEmpty();
     cout << "Depth-first ordering:";
+    // try to search the whole graph from every vertex because we may
+    //not search all
     for (int i = 1; i < adjList.size(); i++)
     {
+        //depth first search from vertex i
         depthFirstSearch(i);
     }
     cout << endl;
@@ -88,14 +100,17 @@ void GraphL::depthFirstSearch(void)
 }
 void GraphL::depthFirstSearch(int start)
 {
+    // if this vertex is searched before do nothing
     if (adjList[start].vertex.searched)
     {
         return;
     }
     //print current vertex
     cout << std::setw(2) << start;
+    // this vertex is been searched after is been printed
     adjList[start].vertex.searched = true;
 
+    // search his neibors which are not been searched
     for (int i = 1; i < adjList.size(); i++)
     {
         auto edge = getEdge(start, i);
@@ -111,10 +126,11 @@ void GraphL::depthFirstSearch(int start)
 int GraphL::getDistance(int start, int to)
 {
     int result = 0;
+    // check the vertex is vaild or not
     assert(start >= 0 && start < adjList.size());
     assert(to >= 0 && to < adjList.size());
 
-    //auto& items = adjList[start]
+    // get the edge from edge list
     for (auto& item : adjList[start].edges)
     {
         if (item.to == to)
@@ -132,7 +148,10 @@ std::vector<GraphL::Vertex*> GraphL::getAllVertexExcept(int e)
     {
         if (adjList[i].vertex.index != e)
         {
+            // init the distance by the edge weight between the vertex 
+            //starter and this vertex 
             adjList[i].vertex.distance = getDistance(e, i);
+            // init the parent vertex of this vertex at the begaining
             adjList[i].vertex.parent = e;
             result.push_back(&adjList[i].vertex);
         }
@@ -142,9 +161,11 @@ std::vector<GraphL::Vertex*> GraphL::getAllVertexExcept(int e)
 
 const GraphL::Edge * GraphL::getEdge(int i, int j) const
 {
+    // get the edge from edge list 
     assert(i >= 0 && i < adjList.size());
     assert(j >= 0 && j < adjList.size());
-
+    
+    // check the vertex is vaild or not
     for (int  t = 0; t < adjList[i].edges.size(); t++)
     {
         if (adjList[i].edges[t].from == i

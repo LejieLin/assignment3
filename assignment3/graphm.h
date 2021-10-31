@@ -25,7 +25,8 @@ public:
     Vertex() :index(-1), parent(-1), distance(g_max_distance) {}
     Vertex(int _index) :index(_index), parent(-1), distance(0) {}
 public:
-    friend bool operator == (const Vertex& _lhs, const Vertex& _rhs) { return _rhs.index == _lhs.index; }
+    friend bool operator == (const Vertex& _lhs, const Vertex& _rhs) 
+    { return _rhs.index == _lhs.index; }
 public:
     int index;
     int parent;
