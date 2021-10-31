@@ -1,0 +1,1 @@
+scp -r lejie@csslab1.uwb.edu:/home/NETID/lejie/assignment3/assignment3 C:/
