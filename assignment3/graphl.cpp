@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <string>
 #include <cassert>
+#include <limits>       // std::numeric_limits
 using namespace std;
 
 void GraphL::buildGraph(istream& infile) {

@@ -1,12 +1,12 @@
 #include "graphm.h"
 #include <iostream>
-#include <numeric>
+#include <limits>       // std::numeric_limits
 #include <string>
 #include <cassert>
 #include <iomanip>
 using namespace std;
 
-extern int g_max_distance = std::numeric_limits<int>::max() / 2;
+int g_max_distance = std::numeric_limits<int>::max() / 2;
 
 void GraphM::buildGraph(istream & infile)
 {
