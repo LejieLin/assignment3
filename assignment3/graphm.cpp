@@ -52,6 +52,7 @@ void GraphM::findShortestPath(void)
     }
 }
 
+// print vertex v to ostream os 
 std::ostream & operator<<(std::ostream & os, const Vertex & v)
 {
     return os << "[" << v.index << "] distance " 
@@ -61,12 +62,14 @@ std::ostream & operator<<(std::ostream & os, const Vertex & v)
 std::pair<bool, std::list<int>> existCheapestPath(GraphM & _graph
     , const int _startVertex, const int _endVertex)
 {
+    // find the path by parent infor
     int i = _endVertex;
     auto endVertex = _graph.getVertex(i).vertex;
     std::list<int> pathIndex;
-    //if exists path
     auto tempVertex = endVertex;
+    // the last vertex on the path is the end vertex
     pathIndex.push_front(tempVertex.index);
+    // search vertex by parent
     while (tempVertex.index != _startVertex)
     {
         i = _graph.getVertex(i).vertex.parent;
@@ -77,10 +80,12 @@ std::pair<bool, std::list<int>> existCheapestPath(GraphM & _graph
         tempVertex = _graph.getVertex(i).vertex;
         pathIndex.push_front(tempVertex.index);
     }
+    // no path existed 
     if (tempVertex.index != _startVertex)
     {
         return std::make_pair(false, pathIndex);
     }
+    // exist path
     else
     {
         return std::make_pair(true, pathIndex);
@@ -91,31 +96,35 @@ void printCheapestPath(GraphM & _graph
     , const int _startVertex, const int _endVertex)
 {
     auto findResult = existCheapestPath(_graph, _startVertex, _endVertex);
+    // print the cheapest path 
     if (findResult.first)
     {
         cout << "                              ";
         auto endVertex = _graph.getVertex(_endVertex);
-        //start index
+        //print the start vertex
         std::cout << std::setw(2) << _startVertex
             << "      "
-        //end index
+        //print the end vertex
             << std::setw(2) << _endVertex
             << "       ";
+        // return if there is no path
         if (endVertex.vertex.distance == g_max_distance)
         {
             std::cout << "---" << std::endl;
             return;
         }
-        //distance
+        // print the distance between the start vertex and the vertex
         cout<< std::setw(3) << endVertex.vertex.distance;
         //path 
         cout<<"       ";
+        // print the vertex list on the cheapest path
         for (auto i : findResult.second)
         {
             std::cout << std::setw(2) << _graph.getVertex(i).vertex.index;
         }
         std::cout << std::endl;
     }
+    // the vertex is can't be reached 
     else
     {
         std::cout << "---"<<std::endl;
@@ -126,17 +135,21 @@ void GraphM::displayAll(void)
 {
     cout << "Description               From "
         <<"node  To node  Dijkstra's  Path" << endl;
+    // print all path from this vertex
     for (int i = 1; i < adjList.size(); i++)
     {
         auto v = adjList[i];
         cout << v.vertex.name << endl;
+        // get the cheapest path by Dijkastra and print it
         for (int j = 1; j < adjList.size(); j++)
         {
             if (i == j)
             {
                 continue;
             }
+            // use dijkstra to search 
             dijkstra(i, j);
+            // print the cheapest path from v to j
             printCheapestPath(*this, v.vertex.index, j);
         }
     }
@@ -144,12 +157,15 @@ void GraphM::displayAll(void)
 
 void GraphM::display(int node_begin, int node_last)
 {
+    // use dijkstra to search 
     dijkstra(node_begin, node_last);
+    // print the cheapest path from v to j
     printCheapestPath2(node_begin, node_last);
 }
 
 GraphNode & GraphM::getVertex(int i)
 {
+    // check if the id is vaild or not
     assert(i >= 0 && i < adjList.size());
     return adjList[i];
 }
@@ -157,6 +173,7 @@ GraphNode & GraphM::getVertex(int i)
 std::vector<Vertex*> GraphM::getAllVertex(void)
 {
     std::vector<Vertex*> result;
+    // all vaild vertex id is start from 1
     for (int i = 1; i < adjList.size(); i++)
     {
         result.push_back(&adjList[i].vertex);
@@ -171,7 +188,10 @@ std::vector<Vertex*> GraphM::getAllVertexExcept(int e)
     {
         if (adjList[i].vertex.index != e)
         {
+            // print the cheapest path from v to j
+            //starter and this vertex 
             adjList[i].vertex.distance = getDistance(e, i);
+            // init the parent vertex of this vertex at the begaining
             adjList[i].vertex.parent = e;
             result.push_back(&adjList[i].vertex);
         }
@@ -183,7 +203,10 @@ void GraphM::makeEmpty(void)
 {
     for(auto&  v : adjList)
     {
+        // the max of the distance means this vertex is can't be
+        //reached at the begaining
         v.vertex.distance = g_max_distance;
+        // -1 means this vertex has no parent at the begaining
         v.vertex.parent = -1;
     }
 }
@@ -212,10 +235,11 @@ void GraphM::dijkstra(int _startVertex, int to)
 int GraphM::getDistance(int start, int to)
 {
     int result = 0;
+    // check the vertex is vaild or not
     assert(start >= 0 && start < adjList.size());
     assert(to >= 0 && to < adjList.size());
 
-    //auto& items = adjList[start]
+    // get the edge from edge list
     for (auto& item : adjList[start].edges)
     {
         if (item.to == to)
@@ -226,7 +250,7 @@ int GraphM::getDistance(int start, int to)
 
     return g_max_distance;
 }
-
+// ------------------------just as printCheapestPath-------------------------
 void GraphM::printCheapestPath2(const int _startVertex, const int _endVertex)
 {
     auto& _graph = *this;
@@ -286,6 +310,8 @@ Vertex* GraphM::extractMin(std::vector<Vertex*>& Q)
 {
     int minDistance = g_max_distance;
 
+    // select the best vertex from the set whitch contained vertex not
+    // been searched
     auto itrMin = Q.begin();
     for (auto itr = Q.begin(); itr != Q.end(); ++itr)
     {

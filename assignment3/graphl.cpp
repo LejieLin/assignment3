@@ -148,7 +148,7 @@ std::vector<GraphL::Vertex*> GraphL::getAllVertexExcept(int e)
     {
         if (adjList[i].vertex.index != e)
         {
-            // init the distance by the edge weight between the vertex 
+            // print the cheapest path from v to j
             //starter and this vertex 
             adjList[i].vertex.distance = getDistance(e, i);
             // init the parent vertex of this vertex at the begaining

@@ -57,6 +57,8 @@ public:
     // output the graph to console
     void findShortestPath(void);
     void displayAll(void);
+    // get the cheapest path by dijkstra between the vertex 
+    //begin and vertex last
     void display(int node_begin, int node_last);
     GraphNode& getVertex(int i);
     std::vector<Vertex*> getAllVertex(void);
@@ -69,6 +71,7 @@ private:
     // get the edge weight between the vetex start and the vertex end
     int getDistance(int start, int end);
     // print the smallest weight pass by dijkstra
+    // just as printCheapestPath
     void printCheapestPath2(const int _startVertex
         , const int _endVertex);
 public:
@@ -86,6 +89,7 @@ private:
 };
 
 // check if there exist a path between vertex start and vertex end
+    // find the path by parent infor
 std::pair<bool, std::list<int>> existCheapestPath(GraphM& _graph
     , const int _startVertex, const int _endVertex);
 // print the cheapest path by vertex index
