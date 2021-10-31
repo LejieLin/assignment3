@@ -58,7 +58,7 @@ std::ostream & operator<<(std::ostream & os, const Vertex & v)
         << v.distance<<" parent " << v.parent;
 }
 
-std::pair<bool, std::list<int>> ExistCheapestFlight(GraphM & _graph
+std::pair<bool, std::list<int>> existCheapestPath(GraphM & _graph
     , const int _startVertex, const int _endVertex)
 {
     int i = _endVertex;
@@ -90,7 +90,7 @@ std::pair<bool, std::list<int>> ExistCheapestFlight(GraphM & _graph
 void printCheapestPath(GraphM & _graph
     , const int _startVertex, const int _endVertex)
 {
-    auto findResult = ExistCheapestFlight(_graph, _startVertex, _endVertex);
+    auto findResult = existCheapestPath(_graph, _startVertex, _endVertex);
     if (findResult.first)
     {
         cout << "                              ";
@@ -230,7 +230,7 @@ int GraphM::getDistance(int start, int to)
 void GraphM::printCheapestPath2(const int _startVertex, const int _endVertex)
 {
     auto& _graph = *this;
-    auto findResult = ExistCheapestFlight(_graph, _startVertex, _endVertex);
+    auto findResult = existCheapestPath(_graph, _startVertex, _endVertex);
     if (findResult.first)
     {
         auto endVertex = _graph.getVertex(_endVertex);

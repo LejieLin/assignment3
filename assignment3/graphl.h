@@ -33,6 +33,7 @@ public:
         friend bool operator == (const Vertex& _lhs, const Vertex& _rhs) 
         { return _rhs.index == _lhs.index; }
     public:
+        // the ID of this vertex 
         int index;
         // the parent vertex in search 
         int parent;
